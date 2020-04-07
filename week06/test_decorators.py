@@ -10,7 +10,7 @@ def say_hello(name):
 
 @accepts(str, int)
 def deposit(name, money):
-    print("{} sends {} $!".format(name, money))
+    return("{} sends {} $!".format(name, money))
 
 
 class TestDecorators(unittest.TestCase):
@@ -53,6 +53,13 @@ class TestDecorators(unittest.TestCase):
 
         self.assertIsNotNone(exc)
         self.assertEqual(str(exc), 'Argument ten of deposit is not int!')
+
+    def test_accepts_decorator_with_correct_arguments_should_print_message(self):
+        result = deposit('Ani', 100)
+
+        expected = 'Ani sends 100 $!'
+
+        self.assertEqual(result, expected)
 
 
 if __name__ == '__main__':

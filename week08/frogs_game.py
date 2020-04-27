@@ -12,11 +12,7 @@ def jump_frog(position, leaf, frog_position):
     list_position = list(position)
     list_position[leaf], list_position[frog_position] = list_position[frog_position], list_position[leaf]
 
-    position_string = ''
-    for elem in list_position:
-        position_string += elem
-
-    return position_string
+    return ''.join(list_position)
 
 
 def generate_possible_moves_from_given_position(position):

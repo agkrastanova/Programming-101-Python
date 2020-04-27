@@ -42,7 +42,7 @@ def generate_possible_moves_from_given_position(position):
     return possible_moves
 
 
-def generate_tree_with_all_paths(start, end, frogs_move):
+def generate_path(start, end, frogs_move):
     positions = generate_possible_moves_from_given_position(start)
 
     frogs_path = copy.copy(frogs_move)
@@ -53,7 +53,7 @@ def generate_tree_with_all_paths(start, end, frogs_move):
 
     for value in positions:
         if value not in frogs_path:
-            new_position = generate_tree_with_all_paths(value, end, frogs_move=frogs_path)
+            new_position = generate_path(value, end, frogs_move=frogs_path)
             if new_position is not None:
                 return new_position
 
@@ -66,7 +66,7 @@ def frog_game(frogs_count):
     start = generate_frog_start_and_end_position('>', '<', half_frogs)
     end = generate_frog_start_and_end_position('<', '>', half_frogs)
 
-    return(generate_tree_with_all_paths(start, end, []))
+    return(generate_path(start, end, []))
 
 
 if __name__ == '__main__':

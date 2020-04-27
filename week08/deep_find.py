@@ -31,7 +31,3 @@ def deep_find(data, key):
     for i in range(len(list_of_dictionary)):
         if list_of_dictionary[i][0] == key:
             return 'key: {}\n   value: {}'.format(list_of_dictionary[i][0], list_of_dictionary[i][1])
-
-
-def deep_find2(data, key):
-    pass

@@ -49,16 +49,16 @@ SELECT starname
 
 
 ALTER TABLE STUDIO
-  ADD COLUMN pres_cert INTEGER REFERENCES MOVIEEXEC(cert)
+  ADD COLUMN president_cert INTEGER REFERENCES MOVIEEXEC(cert)
 
 
 UPDATE STUDIO
-  SET pres_cert=123
+  SET president_cert=123
   WHERE STUDIO.name="MGM"
 
 
 UPDATE STUDIO
-  SET pres_cert=199
+  SET president_cert=199
   WHERE STUDIO.name="USA Entertainm."
 
 

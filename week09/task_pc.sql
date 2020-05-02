@@ -6,7 +6,7 @@ SELECT AVG(speed) FROM laptop WHERE price > 1000;
 
 SELECT AVG(price) FROM pc GROUP BY hd;
 
-SELECT AVG(price) FROM (SELECT * FROM pc WHERE speed > 500);
+SELECT AVG(price) FROM pc WHERE speed > 500 GROUP BY speed;
 
 SELECT AVG(price) FROM pc JOIN product ON pc.model = product.model WHERE product.maker = 'A'; 
 

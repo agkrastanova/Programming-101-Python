@@ -123,7 +123,7 @@ def delete_repair_hour():
     cursor = connection.cursor()
 
     query = '''
-    DELETE FROM RepairHour WHERE id = ?;
+    UPDATE RepairHour SET vehicle = NULL, bill = NULL, mechanic_service = NULL WHERE id = ?;
     '''
     cursor.execute(query, (hour,))
 

@@ -1,4 +1,5 @@
 import sqlite3
+from create_tables import create_all_tables
 from utils import (add_new_client_to_BaseUser_table,
                    check_if_user_in_database,
                    list_all_free_hours,
@@ -12,7 +13,8 @@ from utils import (add_new_client_to_BaseUser_table,
                    list_all_busy_hours,
                    list_busy_hours_date,
                    add_new_repair_hour,
-                   add_new_service
+                   add_new_service,
+                   add_mechanic
                    )
 
 
@@ -34,6 +36,11 @@ mechanic_list = ['list_all_free_hours',
                  'add_new_service',
                  'update_repair_hour <hour_id>',
                  'exit']
+
+
+def print_command_list(command_list):
+    for command in command_list:
+        print(command)
 
 
 def client_choose_command_list(client):
@@ -78,25 +85,83 @@ def mechanic_choose_command_list():
             update_repair_hour()
 
 
-def main():
-    pass
-    # print('Hello!\nProvide user name: ')
-    # user_name = input()
+def login(user_name):
+    if not check_if_user_in_database(user_name):
+        print('Unknown user!\nWould you like to create new user?(yes/no)')
+        answer = ''
+        while answer != 'yes' or answer != 'no':
+            answer = input('(yes/no)>> ')
+            if answer == 'yes':
+                print('Are you a client or mechanic?')
+                client_or_mehanic = input()
+                if client_or_mehanic.lower() == 'client':
+                    add_new_client_to_BaseUser_table()
+                elif client_or_mehanic.lower() == 'mechanic':
+                    add_mechanic()
+            if answer == 'no':
+                return
+            else:
+                print('yes or no, please!')
 
-    # if not check_if_user_in_database(user_name):
-    #     print('Unknown user!\nWould you like to create new user?(yes/no)')
-    #     answer = ''
-    #     while answer != 'yes' or answer != 'no':
-    #         answer = input()
-    #         if answer == 'yes':
-    #             add_new_client_to_BaseUser_table()
-    #         if answer == 'no':
-    #             return None
-    #         else:
-    #             print('yes or no, please: ')
-    # elif check_if_user_in_database(user_name):
-    #     print('You can choose from the following commands:')
-    #     pass
+
+def is_client(user_name):
+    connection = sqlite3.connect('vehicle_management.db')
+    cursor = connection.cursor()
+
+    query = '''
+    SELECT user_name FROM BaseUser WHERE BaseUser.user_name = ?;
+    '''
+
+    cursor.execute(query, (user_name,))
+
+    client = cursor.fetchone()
+
+    if client is None:
+        return False
+
+    if client[0] == user_name:
+        return True
+    else:
+        return False
+
+    connection.close()
+
+
+def is_mechanic(user_name):
+    connection = sqlite3.connect('vehicle_management.db')
+    cursor = connection.cursor()
+
+    query = '''
+    SELECT * FROM Mechanic WHERE title = ?;
+    '''
+    cursor.execute(query, (user_name,))
+
+    mechanic = cursor.fetchone()
+
+    connection.close()
+    if mechanic is None:
+        return False
+
+    if mechanic[1] == user_name:
+        return True
+    else:
+        return False
+
+
+def main():
+    create_all_tables()
+    print('Hello!\nProvide user name: ')
+    user_name = input()
+
+    login(user_name)
+
+    if is_client(user_name):
+        print_command_list(client_list)
+        client_choose_command_list(user_name)
+
+    if is_mechanic(user_name):
+        print_command_list(mechanic_list)
+        mechanic_choose_command_list(user_name)
 
 
 if __name__ == '__main__':

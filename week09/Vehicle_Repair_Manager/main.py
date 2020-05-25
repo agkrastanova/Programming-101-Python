@@ -17,15 +17,14 @@ from utils import (add_new_client_to_BaseUser_table,
                    add_mechanic
                    )
 
-
-client_list = ['list_all_free_hours',
-               'list_free_hours <date>',
-               'save_repair_hour <hour_id>',
-               'update_repair_hour <hour_id>',
-               'delete_repair_hour <hour_id>',
-               'add_vehicle',
-               'update_vehicle <vehicle_id>',
-               'delete_vehicle <vehicle_id>',
+client_list = ['list all free hours',
+               'list free hours for date',
+               'save repair hour',
+               'update repair hour',
+               'delete repair hour',
+               'add vehicle',
+               'update vehicle',
+               'delete vehicle',
                'exit']
 
 mechanic_list = ['list_all_free_hours',
@@ -47,41 +46,43 @@ def client_choose_command_list(client):
     command = ''
     while command != 'exit':
         command = input('command> : ')
-        if command == 'list_all_free_hours':
+        if command == 'list all free hours':
             list_all_free_hours()
-        if command == 'list_free_hours <date>':
+        if command == 'list free hours for date':
             list_free_hours_date()
-        if command == 'save_repair_hour <hour_id>':
+        if command == 'save repair hour':
             save_repair_hour()
-        if command == 'update_repair_hour <hour_id>':
+        if command == 'update repair hour':
             update_repair_hour()
-        if command == 'delete_repair_hour <hour_id>':
+        if command == 'delete repair hour':
             delete_repair_hour()
-        if command == 'add_vehicle':
+        if command == 'add vehicle':
             add_vehicle(client)
-        if command == 'update_vehicle <vehicle_id>':
+        if command == 'update vehicle':
             update_vehicle()
-        if command == 'delete_vehicle <vehicle_id>':
+        if command == 'delete vehicle':
             delete_vehicle(client)
+
+    print('Goodbye!')
 
 
 def mechanic_choose_command_list():
     command = ''
     while command != 'exit':
         command = input('command> : ')
-        if command == 'list_all_free_hours':
+        if command == 'list all free hours':
             list_all_free_hours()
-        if command == 'list_free_hours <date>':
+        if command == 'list free hours for date':
             list_free_hours_date()
-        if command == 'list_all_busy_hours':
+        if command == 'list all busy hours':
             list_all_busy_hours()
-        if command == 'list_busy_hours <date>':
+        if command == 'list busy hours for date':
             list_busy_hours_date()
-        if command == 'add_new_repair_hour':
+        if command == 'add new repair hour':
             add_new_repair_hour()
-        if command == 'add_new_service':
+        if command == 'add new service':
             add_new_service()
-        if command == 'update_repair_hour <hour_id>':
+        if command == 'update repair hour':
             update_repair_hour()
 
 
@@ -89,19 +90,18 @@ def login(user_name):
     if not check_if_user_in_database(user_name):
         print('Unknown user!\nWould you like to create new user?(yes/no)')
         answer = ''
-        while answer != 'yes' or answer != 'no':
-            answer = input('(yes/no)>> ')
-            if answer == 'yes':
-                print('Are you a client or mechanic?')
-                client_or_mehanic = input()
-                if client_or_mehanic.lower() == 'client':
-                    add_new_client_to_BaseUser_table()
-                elif client_or_mehanic.lower() == 'mechanic':
-                    add_mechanic()
-            if answer == 'no':
-                return
-            else:
-                print('yes or no, please!')
+        answer = input('(yes/no)>> ')
+        if answer == 'yes':
+            print('Are you a client or mechanic?')
+            client_or_mehanic = input()
+            if client_or_mehanic.lower() == 'client':
+                add_new_client_to_BaseUser_table()
+            elif client_or_mehanic.lower() == 'mechanic':
+                add_mechanic()
+        if answer == 'no':
+            return
+        else:
+            return
 
 
 def is_client(user_name):
@@ -155,12 +155,18 @@ def main():
 
     login(user_name)
 
-    if is_client(user_name):
+    if is_client(user_name) and not is_mechanic(user_name):
+        print('\nChoose command: ')
+        print('----------------')
         print_command_list(client_list)
+        print('----------------\n')
         client_choose_command_list(user_name)
 
     if is_mechanic(user_name):
+        print('\nChoose command: ')
+        print('----------------')
         print_command_list(mechanic_list)
+        print('----------------\n')
         mechanic_choose_command_list(user_name)
 
 

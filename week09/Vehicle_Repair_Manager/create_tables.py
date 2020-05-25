@@ -7,7 +7,7 @@ def create_all_tables():
 
     query = '''
     CREATE TABLE IF NOT EXISTS BaseUser(
-        id INTEGER PRIMARY KEY,
+        id INTEGER PRIMARY KEY NOT NULL,
         user_name VARCHAR(50),
         email VARCHAR(30),
         phone_number VARCHAR(10),
@@ -54,7 +54,6 @@ def create_all_tables():
         FOREIGN KEY (vehicle) REFERENCES Vehicle(id),
         FOREIGN KEY (mechanic_service) REFERENCES MechanicService(id)
     );
-
 
     CREATE TABLE IF NOT EXISTS Service(
         id INTEGER PRIMARY KEY,

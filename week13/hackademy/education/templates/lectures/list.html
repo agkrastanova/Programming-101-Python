@@ -1,0 +1,7 @@
+<h1>All lectures</h1>
+
+<ul>
+  {% for lecture in lectures %}
+  <li><a href="{% url 'education:lectures:detail' lecture.id %}">{{ lecture.name }}</a></li>
+  {% endfor %}
+</ul>

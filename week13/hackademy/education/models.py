@@ -19,22 +19,22 @@ class Course(models.Model):
 
 
 class Lecture(models.Model):
-    lecture_id = models.IntegerField(primary_key=True)
+    lecture_id = models.AutoField(primary_key=True, unique=True)
     name = models.CharField(max_length=250)
     week = models.CharField(max_length=10)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     url = models.TextField()
 
     def __str__(self):
-        return f'"{self.name}"'
+        return f'Lecture "{self.name}"'
 
 
 class Task(models.Model):
     name = models.CharField(max_length=250, unique=True)
     description = models.TextField()
     due_date = models.DateTimeField(default=timezone.now)
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
-    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE, null=True, blank=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'Task "{self.name}"'

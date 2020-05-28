@@ -9,7 +9,7 @@ class CourseAdmin(admin.ModelAdmin):
 
     def get_duartion(self, obj):
         if obj.duration:
-            return f'{obj.duration.days // 7} weeks'
+            return f'{obj.duration.days // 30} months'
 
         return 'N/A'
 
@@ -28,4 +28,13 @@ class TaskAdmin(admin.ModelAdmin):
 
 @admin.register(Solution)
 class SolutionAdmin(admin.ModelAdmin):
-    list_display = ('task', 'date', 'url')
+    list_display = ('task', 'get_description', 'get_lecture', 'date', 'url')
+
+    def get_description(self, obj):
+        return obj.task.description
+
+    def get_lecture(self, obj):
+        return obj.task.lecture
+
+    get_description.short_description = 'description'
+    get_lecture.short_description = 'lecture'

@@ -1,41 +1,26 @@
 {% extends "courses/base.html" %} {% block content %}
-<h2>{{ course.name }}</h2> 
-
-
-<table style="width:40%">
-  <tr>
-    <th>Start date</th>
-    <th>End date</th>
-    <th>Duration</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    {% for course in courses %}
-        <td>
-            {{ course.start_date }}
-        </td>
-        <td>
-            {{ course.end_date }}
-        </td>
-        <td>
-            {{ course.duration }} 
-        </td>
-        <td>
-            {{ course.description }}
-        </td>
-    {% endfor %}
-  </tr>
-</table>
-
-
-<br style = “line-height:5;”><br>
-<br style = “line-height:5;”><br>
-
 
 <h3>Lectures for {{ course.name }}</h3>
-<ul>
-  {% for lecture in lectures %}
-  <li><a href="{% url 'education:lectures:detail' lecture.id %}">{{ lecture.name }}</a></li>
-  {% endfor %}
-</ul>
+
+
+{% if lectures %}
+    <table>
+        <tr>
+            <th>Lecture Name</th>
+            <th>Week</th>
+            <th>URL</th>
+        </tr>
+        {% for lecture in lectures %}
+            <tr>
+                <td>
+                    <a href="{% url 'education:courses:detail' course.id %}">{{ lecture.name }}</a>
+                </td>
+                <td>{{ lecture.week }}</td>
+                <td><a href="{{ lecture.url }}">{{ lecture.url }}</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    There are no lectures
+{% endif %}
 {% endblock %}
